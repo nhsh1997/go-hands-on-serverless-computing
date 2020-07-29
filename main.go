@@ -1,4 +1,4 @@
-package go_hands_on_serverless_computing
+package main
 
 import (
 	"fmt"
@@ -6,10 +6,15 @@ import (
 )
 
 type Event struct {
-	Username string
+	Username string `json:"username"`
 }
 
 func handler(e Event) (string, error) {
+	if len(e.Username) == 0 {
+		return "", fmt.Errorf("no name given")
+	} else if e.Username[0] == 'D' {
+		return "", fmt.Errorf("don't like: %s", e.Username)
+	}
 	return fmt.Sprintf("<h1>Hello %s from Lambda Go</h1>", e.Username), nil
 }
 
